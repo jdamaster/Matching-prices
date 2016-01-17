@@ -51,7 +51,8 @@ public class Dictionary {
             }
             if(product!=null){
                 //Extract the product name and model
-                productSanitized=Sanitizer.Sanitize(product.get("product_name").toString(),product.get("model").toString());
+                
+                productSanitized=Sanitizer.Sanitize(product.get("product_name").toString(),product.get("model").toString(),product.get("family"));
                 /**
                  * If the product exist in the dictionary, then we insert the model in the dictionary,
                  * else the product and model will be added to the dictionary

@@ -30,17 +30,17 @@ public class Sanitizer {
      * @param model
      * @return 
      */
-    public static JSONObject Sanitize(String productName,String model){
+    public static JSONObject Sanitize(String productName,String model,Object family){
         JSONObject produc=new JSONObject();
-                //Extracting the model of the product
-        productName=productName.replaceAll(model,"");
+        //Extracting the model of the product
+        productName=Remove(productName,model);
+        if(family!=null){
+            productName=Remove(productName,family.toString());
+        }
         StringTokenizer token=new StringTokenizer(productName,delim);
         String name=token.nextToken();
         while(token.hasMoreTokens()){
             name=name+" "+token.nextToken();
-        }
-        if(name.contains(model)){
-            name=name.replaceAll(model, "");
         }
         produc.put("product", name);
         produc.put("model",model);
@@ -58,5 +58,20 @@ public class Sanitizer {
             iter.add(parsedRow.toJSONString());
         }
         return iter;
+    }
+    
+    static private String Remove(String base,String toRemove){
+        //Case when there is exact matching
+        if(base.contains(toRemove)){
+            return base.replaceAll(toRemove,"");
+        }
+        //Case when the model could be tokenized 
+        String delimiter="-/\\_ ";
+        StringTokenizer st=new StringTokenizer(toRemove,delimiter);
+        while(st.hasMoreTokens()){
+            base=base.replaceAll(st.nextToken(),"");
+        }
+        return base;
+        
     }
 }

@@ -22,7 +22,7 @@ import org.json.simple.parser.ParseException;
  */
 public class Result {
     static JSONObject dictionary;
-    
+    static JSONObject productsDB;
     public static JSONObject MakeResult(String productPath,String listingPath){
         productPath="D:\\products.txt";
         listingPath="D:\\listings.txt";
@@ -31,6 +31,7 @@ public class Result {
         JSONParser parser= new JSONParser();
         JSONObject result=new JSONObject();
         JSONObject listingRow;
+        productsDB=new JSONObject();
         List<String> products=Reader.Read(productPath);
         List<String> listings=Reader.Read(listingPath);
         //Build the dictionary
@@ -44,6 +45,7 @@ public class Result {
         result.put("Missed Matches", new JSONArray());
         
         for(String json:products){
+            
             try {
                 aux=(JSONObject)parser.parse(json);
             } catch (ParseException ex) {
@@ -52,6 +54,7 @@ public class Result {
             }
             if(aux!=null){
                 result.put(aux.get("product_name"), new JSONArray());
+                productsDB.put(aux.get("product_name"), aux);
             }
         }
           
@@ -77,29 +80,16 @@ public class Result {
         return result;
     }
     private static String Search(String title){
-        title=title.toUpperCase();
         Iterator<?> products=dictionary.keySet().iterator();
-        //The variable containProduct change to true when at less one
-        //word of the name of a product is present in the title of a item
-        boolean containProduct;
         while(products.hasNext()){
-            String product=(String)products.next();
-            String auxProduct=product.toUpperCase();
-            containProduct=true;
-            StringTokenizer st=new StringTokenizer(auxProduct);
-            while(st.hasMoreTokens()){
-                if(!title.contains(st.nextToken())){
-                    containProduct=false;
-                }
-            }
-            
-            if(containProduct){
+            String product=(String)products.next();  
+            if(Contain(title, product)){
                 JSONObject models=(JSONObject)dictionary.get(product);
                 Iterator<?> modelsList=models.keySet().iterator();
                 while(modelsList.hasNext()){
                     String model=(String)modelsList.next();
-                    String modelAux=model.toUpperCase();
-                    if(title.contains(modelAux)){
+                    
+                   if(Contain(title, model)){
                         return models.get(model).toString();
                     }
                 }
@@ -107,6 +97,20 @@ public class Result {
         }
         return "Missed Matches";
     }
+    static private boolean Contain(String base,String toFind){
+        String delimiter="-/\\_ ";
+        base=base.toUpperCase();
+        toFind=toFind.toUpperCase();
+        StringTokenizer st =new StringTokenizer(toFind,delimiter);
+        
+        while(st.hasMoreTokens()){
+            if(!base.contains(st.nextToken())){
+                return false;
+            }
+        }
+        return true;
+    }
+ 
     
     
 }
