@@ -77,7 +77,7 @@ public class Result {
         return result;
     }
     private static String Search(String title){
-        title.toUpperCase();
+        title=title.toUpperCase();
         Iterator<?> products=dictionary.keySet().iterator();
         //The variable containProduct change to true when at less one
         //word of the name of a product is present in the title of a item
@@ -85,11 +85,11 @@ public class Result {
         while(products.hasNext()){
             String product=(String)products.next();
             String auxProduct=product.toUpperCase();
-            containProduct=false;
+            containProduct=true;
             StringTokenizer st=new StringTokenizer(auxProduct);
             while(st.hasMoreTokens()){
-                if(title.contains(st.nextToken())){
-                    containProduct=true;
+                if(!title.contains(st.nextToken())){
+                    containProduct=false;
                 }
             }
             

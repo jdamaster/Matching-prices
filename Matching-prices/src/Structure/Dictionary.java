@@ -62,10 +62,10 @@ public class Dictionary {
                     models.put(productSanitized.get("model"),product.get("product_name"));
                     dictionary.replace(productSanitized.get("product"), models);
                 }else{
-                    JSONObject dictionaryEntry = new JSONObject();
+                    
                     JSONObject models = new JSONObject();
                     models.put(productSanitized.get("model"), product.get("product_name"));
-                    dictionaryEntry.put(productSanitized.get("product"), models);
+                    dictionary.put(productSanitized.get("product"), models);
                 }
                         
             }

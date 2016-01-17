@@ -39,6 +39,9 @@ public class Sanitizer {
         while(token.hasMoreTokens()){
             name=name+" "+token.nextToken();
         }
+        if(name.contains(model)){
+            name=name.replaceAll(model, "");
+        }
         produc.put("product", name);
         produc.put("model",model);
         return produc;
