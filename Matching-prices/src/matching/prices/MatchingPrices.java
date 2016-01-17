@@ -5,9 +5,20 @@
  */
 package matching.prices;
 
+import Structure.Result;
+import Tools.Sanitizer;
+import Tools.Writer;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 /**
  *
- * @author Usuario
+ * @author Julian David Arango
  */
 public class MatchingPrices {
 
@@ -16,6 +27,10 @@ public class MatchingPrices {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        JSONObject resultado = Result.MakeResult(null, null);
+        Writer.Write(null, Sanitizer.ParseResult(resultado));
+        
+                
     }
     
 }
