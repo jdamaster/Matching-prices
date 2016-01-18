@@ -8,13 +8,7 @@ package matching.prices;
 import Structure.Result;
 import Tools.Sanitizer;
 import Tools.Writer;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -24,12 +18,19 @@ public class MatchingPrices {
 
     /**
      * @param args the command line arguments
+     * args[0] path to products.txt
+     * args[1] path to listings.txt
+     * args[2] path to result folder 
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        JSONObject resultado = Result.MakeResult(null, null);
-        Writer.Write(null, Sanitizer.ParseResult(resultado));
         
+        if((args[0]!=null )&&(args[1]!=null)&&(args[2]!=null)){
+            JSONObject resultado = Result.MakeResult(args[0], args[1]);
+            Writer.Write(args[2], Sanitizer.ParseResult(resultado));
+        }else{
+            System.out.println("Correct usage: \n"
+                    + "java Matching-prces.jar <path-to-products.txt> <path-to-listings.txt> <path-to-result-folder>");
+        }
                 
     }
     

@@ -25,10 +25,14 @@ import org.json.simple.JSONObject;
 public class Sanitizer {
     private static final String delim="_-";
     /**
-     * 
-     * @param productName 
-     * @param model
-     * @return 
+     * This method takes the product_name (unique for each product) and let only
+     * the product name, without the model, and without the family (in case that 
+     * the product has family)
+     * @param productName id unique of the product,
+     * @param model model of the product (present in the product name)
+     * @param family Optional family of the product, if the product has no family
+     * the family arg will be null
+     * @return a json object with the name of the product (separated with blanks) and the model
      */
     public static JSONObject Sanitize(String productName,String model,Object family){
         JSONObject produc=new JSONObject();
@@ -46,6 +50,12 @@ public class Sanitizer {
         produc.put("model",model);
         return produc;
     }
+    /**
+     * This method parse a json object {(name:Array),(name2:Array2),...}and give a
+     * list of json objects like (product_name:name)(Listings:array) 
+     * @param result a json object compound of products names and his respective arrays.
+     * @return a list of the text representation of the array
+     */
     public static List ParseResult(JSONObject result){
         List<String> iter=new ArrayList<>();
         Iterator<?> rows=result.keySet().iterator();
@@ -59,7 +69,15 @@ public class Sanitizer {
         }
         return iter;
     }
-    
+    /**
+     * this method remove the "words" present in toRemove from the string base
+     * the words in the toRemove string could be separathed by the delimiters 
+     * - / \ _ or blank, if the words are together are taken like a single word
+     * @param base String base, that could have one or more ocurrences of the 
+     * words in toRemove string 
+     * @param toRemove String to remove from base
+     * @return result string after remove the words in toRemove sstring
+     */
     static private String Remove(String base,String toRemove){
         //Case when there is exact matching
         if(base.contains(toRemove)){

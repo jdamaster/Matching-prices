@@ -17,6 +17,11 @@ import java.util.logging.Logger;
  */
 
 public class Reader {
+    /**
+     * This metod read a file and make a list with each line
+     * @param path the path of the text file
+     * @return A string list with each line of the file.
+     */
     public static List<String> Read(String path){
         try {
             return Files.readAllLines(Paths.get(path));

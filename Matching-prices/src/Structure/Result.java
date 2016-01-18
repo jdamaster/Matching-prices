@@ -23,9 +23,16 @@ import org.json.simple.parser.ParseException;
 public class Result {
     static JSONObject dictionary;
     static JSONObject productsDB;
+    /**
+     * The MakeResult method initializes a dictionary with the products and models,
+     * then read line per line of the listings file and then put it in the result Json
+     * @param productPath path to the products text file
+     * @param listingPath path to the listings text file
+     * @return  return a json object with the following structure
+     * {"product_name":[item1,item2]}, the mismatched products apear 
+     * in "Missed Matches" product name
+     */
     public static JSONObject MakeResult(String productPath,String listingPath){
-        productPath="D:\\products.txt";
-        listingPath="D:\\listings.txt";
         JSONArray rowArray;
         JSONObject aux;
         JSONParser parser= new JSONParser();
@@ -79,6 +86,14 @@ public class Result {
         
         return result;
     }
+    /**
+     * This method Search iterate the dictionary  entries looking
+     * for a similar item that the item described in the title string
+     * when a similar product could'nt be founded the metod return 
+     * the name of the default product list
+     * @param title a string that contain a product name and a model of the product
+     * @return the name of the product present in the title
+     */
     private static String Search(String title){
         Iterator<?> products=dictionary.keySet().iterator();
         while(products.hasNext()){
@@ -97,6 +112,14 @@ public class Result {
         }
         return "Missed Matches";
     }
+    /**
+     * The contain method try to search the toFind string in the base
+     * string, the to find string could be one or more words separated by one 
+     * or more delimiters, and be present in any order in the base string
+     * @param base base string that could contain the toFind String
+     * @param toFind String to find in base string.
+     * @return true if each word of toFind is present in base String, else false
+     */
     static private boolean Contain(String base,String toFind){
         String delimiter="-/\\_ ";
         base=base.toUpperCase();

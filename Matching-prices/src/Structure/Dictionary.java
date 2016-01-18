@@ -9,7 +9,6 @@ import Tools.Sanitizer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,11 +28,20 @@ import org.json.simple.parser.ParseException;
  */
 public class Dictionary {
     private JSONObject dictionary;
-
+    /**
+     * The Dictionary constructor require a List of all the products
+     * to inicialize the dictionary variable.
+     * @param list List of json Strings that represent products
+     */
     public Dictionary(List<String> list) {
         initDictionary(list);
     }
-    
+    /**
+     * The initDictionary method extract the principal information
+     * of a product, like the product name and model, then build a Json 
+     * object with all the products and models builded for quickly search
+     * @param list List of string with all the products in json.
+     */
     private void initDictionary(List<String> list){
         //Product form file
         JSONObject product;
@@ -50,12 +58,12 @@ public class Dictionary {
                 product=null;
             }
             if(product!=null){
-                //Extract the product name and model
+                //Extract the product name,family and model
                 
                 productSanitized=Sanitizer.Sanitize(product.get("product_name").toString(),product.get("model").toString(),product.get("family"));
                 /**
                  * If the product exist in the dictionary, then we insert the model in the dictionary,
-                 * else the product and model will be added to the dictionary
+                 * else the product and model will be created and added to the dictionary
                  */
                 
                 if(dictionary.containsKey(productSanitized.get("product"))){
@@ -73,8 +81,11 @@ public class Dictionary {
         }
         
     }
-    
 
+    /**
+     * Getter for the dictionary privat variable
+     * @return Json Dictionary
+     */
     public JSONObject getDictionary() {
         return dictionary;
     }
