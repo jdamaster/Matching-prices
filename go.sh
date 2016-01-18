@@ -1,9 +1,9 @@
 #!/bin/bash
 PRODUCT='InputFiles/products.txt'
 LISTINGS='InputFiles/listings.txt'
-RESULT='Result'
-MAINCLASS='Matching-prices/build/classes/matching/prices/MatchingPrices'
-java $MAINCLASS $PRODUCTS $LISTINGS $RESULT
+RESULT='Result/'
+JAR='Matching-prices/dist/Matching-prices.jar'
+java -jar $JAR $PRODUCT $LISTINGS $RESULT
 
 
 
